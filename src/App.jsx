@@ -16,6 +16,7 @@ const CallScreen = lazy(() => import('./pages/CallScreen'));
 const CreatorHub = lazy(() => import('./pages/CreatorHub'));
 const UserProfile = lazy(() => import('./pages/UserProfile'));
 const UserProfileView = lazy(() => import('./pages/UserProfileView'));
+const Feed = lazy(() => import('./pages/Feed'));
 
 // Page transition wrapper
 const PageTransition = ({ children }) => (
