@@ -6,7 +6,12 @@ import MarsEmoji from '../components/MarsEmoji';
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
-  const [form, setForm] = useState({ email: '', password: '', username: '', name: '' });
+  const [form, setForm] = useState({
+    email: '',
+    password: '',
+    username: '',
+    name: '',
+  });
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const setUser = useUserStore((s) => s.setUser);
@@ -23,8 +28,10 @@ const AuthPage = () => {
     if (!isLogin) {
       // Registration flow
       if (!form.username) return setError('Username is required');
-      if (form.username.length < 3) return setError('Username must be at least 3 characters');
-      if (form.password.length < 6) return setError('Password must be at least 6 characters');
+      if (form.username.length < 3)
+        return setError('Username must be at least 3 characters');
+      if (form.password.length < 6)
+        return setError('Password must be at least 6 characters');
 
       // Check if username is already taken
       const existingUser = localStorage.getItem(`user_${form.username}`);
@@ -37,7 +44,7 @@ const AuthPage = () => {
         username: form.username,
         name: form.name || form.username,
         onboardingCompleted: false, // New users need to complete onboarding
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
       };
 
       try {
@@ -45,7 +52,7 @@ const AuthPage = () => {
         localStorage.setItem(`user_${form.username}`, JSON.stringify(userData));
         // Also save user by email for login
         localStorage.setItem(`user_email_${form.email}`, form.username);
-        
+
         // Set user in the store and redirect to onboarding
         setUser(userData);
         navigate('/onboarding');
@@ -62,8 +69,10 @@ const AuthPage = () => {
           return setError('Invalid email or password');
         }
 
-        const userData = JSON.parse(localStorage.getItem(`user_${username}`) || 'null');
-        
+        const userData = JSON.parse(
+          localStorage.getItem(`user_${username}`) || 'null'
+        );
+
         if (!userData) {
           return setError('Invalid email or password');
         }
@@ -73,9 +82,9 @@ const AuthPage = () => {
         setUser({
           ...userData,
           // Make sure onboardingCompleted is a boolean
-          onboardingCompleted: !!userData.onboardingCompleted
+          onboardingCompleted: !!userData.onboardingCompleted,
         });
-        
+
         // Always redirect to feed after login
         navigate('/feed');
       } catch (err) {
@@ -90,11 +99,7 @@ const AuthPage = () => {
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <div className="flex justify-center mb-6">
-            <img 
-              src="/netuark.png" 
-              alt="Netuark Logo" 
-              className="h-16 w-auto"
-            />
+            <img src="/netuark.png" alt="Netuark Logo" className="h-40 w-40" />
           </div>
           <h1 className="text-4xl font-bold text-gray-900 flex items-center justify-center gap-2">
             NeTuArk
@@ -104,7 +109,9 @@ const AuthPage = () => {
         </div>
 
         <div className="bg-white rounded-3xl shadow-xl p-8">
-          <h2 className="text-2xl font-bold text-center mb-6">{isLogin ? 'Welcome Back' : 'Create Account'}</h2>
+          <h2 className="text-2xl font-bold text-center mb-6">
+            {isLogin ? 'Welcome Back' : 'Create Account'}
+          </h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {!isLogin && (
@@ -122,7 +129,14 @@ const AuthPage = () => {
                   placeholder="Username (unique)"
                   required={!isLogin}
                   value={form.username}
-                  onChange={(e) => setForm({ ...form, username: e.target.value.toLowerCase().replace(/[^a-z0-9]/g, '') })}
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      username: e.target.value
+                        .toLowerCase()
+                        .replace(/[^a-z0-9]/g, ''),
+                    })
+                  }
                   className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-blue-500"
                 />
               </>
@@ -157,7 +171,7 @@ const AuthPage = () => {
           </form>
 
           <p className="text-center mt-6 text-gray-600">
-            {isLogin ? "Don't have an account? " : "Already have an account? "}
+            {isLogin ? "Don't have an account? " : 'Already have an account? '}
             <button
               onClick={() => {
                 setIsLogin(!isLogin);

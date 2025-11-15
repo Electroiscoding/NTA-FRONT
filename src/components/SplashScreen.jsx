@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import PropTypes from 'prop-types';
 
 export const SplashScreen = ({ onFinish }) => {
   const [show, setShow] = useState(true);
@@ -7,9 +8,8 @@ export const SplashScreen = ({ onFinish }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShow(false);
-      // Small delay before calling onFinish to allow the exit animation to complete
       setTimeout(onFinish, 500);
-    }, 2000); // Show splash for 2 seconds
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, [onFinish]);
@@ -52,6 +52,10 @@ export const SplashScreen = ({ onFinish }) => {
       </motion.div>
     </motion.div>
   );
+};
+
+SplashScreen.propTypes = {
+  onFinish: PropTypes.func.isRequired
 };
 
 export default SplashScreen;
